@@ -1,7 +1,7 @@
 const ROUTES = {
-  main: () => '/articles',
-  article: (id) => `/articles/${id}`,
-  topics: () => '/topics',
+  mainRoute: () => '/articles',
+  articleRoute: (id) => `/articles/${id}`,
+  topicsRoute: () => '/topics',
 };
 
 export default ROUTES;
