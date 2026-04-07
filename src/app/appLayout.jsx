@@ -1,0 +1,1 @@
+// think to add <Outlet/> for react router
