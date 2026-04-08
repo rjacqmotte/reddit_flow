@@ -10,3 +10,7 @@ il y a surement des erreurs, mais les bases sont posée pour avancer et commence
 
 ### commit: create basic page component to confirm react router is well configured
 create page feature AppLayout.jsx, Articles.jsx, Topics.jsx. Config BrowserRouter in App.jsx. Complete route.js.
+
+### doc: reddit auth synthese (frontend only)
+ajout d'une fiche dans doc/reddit_auth_synthese.md avec un flux oauth reddit adapte a une app react router + redux sans backend, compatible netlify
+
