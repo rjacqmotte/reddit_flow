@@ -14,3 +14,7 @@ create page feature AppLayout.jsx, Articles.jsx, Topics.jsx. Config BrowserRoute
 ### doc: reddit auth synthese (frontend only)
 ajout d'une fiche dans doc/reddit_auth_synthese.md avec un flux oauth reddit adapte a une app react router + redux sans backend, compatible netlify
 
+## 8 avril
+### commit: create variable.css and base.css
+l'ia a créer des feuille de base css pour ce projet et les futur. il s'agit d'un socle ou ajouter encore un couche de css si nécessaire. il y a des commentaires pédagogiques et des bonne pratiques en commentaire au sein des ces 2 fichiers.
+=> il faut encore les lier au root du programme.
