@@ -1,5 +1,5 @@
 /** Display the flow of articles to scroll. default page. */
-import { Card } from '../../components/Card';
+import { Card } from '../../components/Card/Card';
 import { mockArticles } from "../../mock/mockArticles";
 
 export const Articles =  () => {
