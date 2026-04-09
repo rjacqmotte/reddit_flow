@@ -1,11 +1,12 @@
 /** Display the flow of articles to scroll. default page. */
 import { Card } from '../../components/Card/Card';
 import { mockArticles } from "../../mock/mockArticles";
+import styles from './articles.module.css';
 
 export const Articles =  () => {
     return (
         <div className='articlesContainer'>
-            <ul>
+            <ul className={styles.ArticlesList}>
                 {Object.values(mockArticles).map((article) => (
                     <li key={article.id}>
                         <Card 
@@ -16,15 +17,6 @@ export const Articles =  () => {
                     </li>
                 ))}
             </ul>
-        <div>
-            <h1>first article</h1>
-        </div>
-        <div>
-            <h1>second article</h1>
-        </div>
-        <div>
-            <h1>third artcile</h1>
-        </div>
         </div>
     );
 };
