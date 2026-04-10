@@ -1,0 +1,130 @@
+/*
+ * Modern CSS Reset
+ * Inspired by Josh Comeau, Andy Bell, and modern best practices
+ */
+
+/* Box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Remove list styles */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Headings and text wrapping */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p,
+li,
+figcaption {
+  text-wrap: pretty;
+  max-inline-size: 75ch;
+}
+
+/* Links */
+a {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+/* Media elements */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Inherit fonts for form elements */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Textarea without dragging outside of container */
+textarea {
+  resize: vertical;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Avoid text overflows */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
+/* Remove animations for people who prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Create a root stacking context for React/Vue */
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* Make sure min-width doesn't cause overflow (flexbox/grid fix) */
+* {
+  min-width: 0;
+}

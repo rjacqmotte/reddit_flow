@@ -10,5 +10,5 @@ export const AppLayout = () => {
         <Outlet/>
         <Menu/>
         </div>
-    );
+);
 }

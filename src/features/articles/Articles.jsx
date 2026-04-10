@@ -8,7 +8,7 @@ export const Articles =  () => {
         <div className='articlesContainer'>
             <ul className={styles.ArticlesList}>
                 {Object.values(mockArticles).map((article) => (
-                    <li key={article.id}>
+                    <li key={article.id} className={styles.ArticleItem}>
                         <Card 
                             title={article.title}
                             body={article.body}

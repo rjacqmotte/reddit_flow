@@ -1,0 +1,16 @@
+/* Font */
+/********/
+
+h2 {
+    max-width: none;
+    line-height: var(--lh-tight);
+    font-size: var(--font-size-xl);
+}
+
+p {
+    font-size: var(--font-size-sm);
+    line-height: var(--lh-relaxed);
+}
+
+
+
