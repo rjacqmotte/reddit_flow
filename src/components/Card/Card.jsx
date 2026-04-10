@@ -32,7 +32,7 @@ export const Card = ({ id, title, body, imageUrl }) => {
         <p>{body}</p>
         {hasOverFlow && (
           <div className={styles.cardExpendZone}>
-            {/* <button className={styles.cardExpendButton}/> */}
+            <button className={styles.cardExpendButton}>Read Article</button>
           </div>
         )}
       </div>
