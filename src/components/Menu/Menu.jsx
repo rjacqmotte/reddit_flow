@@ -6,14 +6,12 @@
    */
 
 import { SearchForm } from '../SearchForm/SearchForm';
-import { NavButton } from '../NavButton/NavButton';
 import styles from './Menu.module.css';
 
 export const Menu = () => {
     return (
         <div className={styles.menuContainer}>
             <SearchForm/>
-            <NavButton/>
         </div>
     );
 };

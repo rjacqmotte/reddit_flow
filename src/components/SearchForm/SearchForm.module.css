@@ -1,0 +1,33 @@
+.searchForm {
+    position: relative;
+    display: flex;
+}
+
+.searchInput {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-round);
+}
+
+.searchButtonsContainer {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    display: flex;
+    gap: 1px;
+}
+
+.searchButton, .paramButton {
+    height: 100%;
+    width: var(--size-8);
+}
+
+.searchButton {
+    border-radius: var(--radius-round) var(--radius-3) var(--radius-3) var(--radius-round);
+}
+
+.paramButton {
+    border-radius: var(--radius-3) var(--radius-round) var(--radius-round) var(--radius-3);
+    letter-spacing: 0.3em;
+    font-weight: 800;
+}

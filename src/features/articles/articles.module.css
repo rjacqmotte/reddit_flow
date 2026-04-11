@@ -3,7 +3,7 @@
   display: grid;
   padding: 0;
   gap: var(--space-4);
-  margin: var(--space-3);
+  padding: var(--space-2);
 }
 
 .ArticleItem {
