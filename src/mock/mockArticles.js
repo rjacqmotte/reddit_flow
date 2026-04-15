@@ -24,12 +24,12 @@ And we thought this was the coolest shopping experience imaginable. I saved up m
     title:
       'Was it really this easy back in the day or do some people be exaggerating, due to nostalgia?',
     body: '',
-    imageUrl: 'photo_article3.jpeg',
+    imageUrl: '/photo_article3.jpeg',
   },
   4: {
     id: 4,
     title: `The difference between Cheetah, Leopard and Jaguar`,
     body: '',
-    imageUrl: 'photo_article_4.png',
+    imageUrl: '/photo_article_4.png',
   },
 };
