@@ -1,3 +1,5 @@
+// Card wrap and display each article in the articles flow view.
+// it detects overflow.  
 import styles from './Card.module.css';
 import { useRef, useEffect, useState } from 'react';
 
@@ -7,10 +9,9 @@ export const Card = ({ id, title, body, imageUrl }) => {
   const [hasOverFlow, setHasOverFlow] = useState(false);
 
   useEffect(() => {
+    // check if overflowed
     const content = contentRef.current;
     const view = viewRef.current;
-    console.log(content.scrollHeight);
-    console.log(view.clientHeight);
     if (content && view) {
       setHasOverFlow(content.scrollHeight > view.clientHeight);
     }
