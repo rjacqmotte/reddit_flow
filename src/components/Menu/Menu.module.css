@@ -2,6 +2,5 @@
     position: fixed;
     bottom: 0;
     padding: var(--space-2);
-    background-color: hsl(188 74% 51% / 0.5);
     width: 100%;
 }
