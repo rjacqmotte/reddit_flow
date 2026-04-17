@@ -12,7 +12,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          <Route index element={<Articles />} />
+          <Route index element={<Articles articles={mockArticles} />} />
           <Route path="articles/:articleId" element={<Article articles={mockArticles} />} />
           <Route path="topics" element={<Topics />} />
         </Route>
