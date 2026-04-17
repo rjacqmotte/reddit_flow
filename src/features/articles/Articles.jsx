@@ -2,11 +2,11 @@
 import { Card } from '../../components/Card/Card';
 import styles from './articles.module.css';
 
-export const Articles =  ({ articles }) => {
+export const Articles =  ({ articles = {} }) => {
     return (
         <div className={styles.articlesContainer}>
             <ul className={styles.ArticlesList}>
-                {Object.values(articles).map((article) => (
+                {Object.values(articles || {}).map((article) => (
                     <li key={article.id} className={styles.ArticleItem}>
                         <Card 
                             title={article.title}
