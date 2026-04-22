@@ -7,6 +7,49 @@
 
 ---
 
+## Concept clé : `vi.fn()` crée une fausse fonction
+
+Dans la doc Vitest, l'exemple de base montre :
+
+```js
+const getApples = vi.fn()
+getApples.mockReturnValue(10)
+expect(getApples()).toBe(10)
+```
+
+Ici `getApples` n'est **pas une vraie fonction** — elle est créée de zéro par `vi.fn()` juste pour illustrer le mécanisme. C'est un exemple pédagogique isolé.
+
+Dans la vraie vie, `vi.fn()` sert surtout à **remplacer une fonction qui existe déjà** par une fausse version que tu contrôles.
+
+---
+
+## Concept clé : on peut réassigner n'importe quelle fonction, même les globals
+
+C'est une découverte importante : **en JavaScript, une fonction n'est qu'une valeur assignée à une variable**. On peut donc la réassigner.
+
+```js
+// Une fonction normale
+let maFonction = () => 'vrai résultat'
+
+// On la remplace par une fausse
+maFonction = vi.fn().mockReturnValue('faux résultat')
+
+maFonction() // → 'faux résultat'
+```
+
+Cela fonctionne aussi avec les **fonctions globales du navigateur** comme `fetch`, `setTimeout`, `localStorage`, etc.
+
+`fetch` est accessible partout sans import — c'est une propriété de l'objet global. Dans Node.js (l'environnement de Vitest), cet objet global s'appelle `global` :
+
+```js
+global.fetch = vi.fn().mockResolvedValue({...})
+// équivalent à écraser la variable `fetch` globalement
+```
+
+Pourquoi écrire `global.fetch` et pas juste `fetch = ...` ? En modules ES (fichiers `.js`/`.jsx`), JavaScript en mode strict interdit de réassigner un global sans le qualifier explicitement. `global.fetch =` dit clairement "je modifie intentionnellement le global".
+
+---
+
 ## Comprendre le problème (vision méta)
 
 Quand tu testes une fonction qui appelle `fetch`, tu as un problème :
@@ -158,3 +201,16 @@ describe('fetchPopular', () => {
 - Toujours appeler `vi.resetAllMocks()` dans un `beforeEach` pour ne pas polluer entre les tests
 - Utiliser `async/await` dans les `it` pour tester des fonctions asynchrones
 - Pour tester qu'une erreur est lancée : `await expect(maFonction()).rejects.toThrow('message')`
+
+---
+
+## Nuance : `resetAllMocks` vs `restoreAllMocks`
+
+Avec `global.fetch = vi.fn()`, tu **réassignes** directement le global. Dans ce cas :
+
+- `vi.resetAllMocks()` → efface les `mockResolvedValue` définis, remet le `vi.fn()` à vide
+- `vi.restoreAllMocks()` → ne restaure **pas** la vraie `fetch` (ça ne fonctionne qu'avec `vi.spyOn()`)
+
+En pratique, ce n'est pas un problème : comme tu redéfinis `global.fetch = vi.fn().mockResolvedValue(...)` dans chaque `it`, chaque test repart d'un mock frais et contrôlé.
+
+Si tu voulais restaurer automatiquement la vraie `fetch`, il faudrait utiliser `vi.spyOn(global, 'fetch')` à la place — mais c'est une étape suivante.
