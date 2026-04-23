@@ -1,3 +1,19 @@
+// Données copiées depuis https://www.reddit.com/r/popular.json (impression élégante du navigateur)
+//
+// SUBTILITÉ JSON vs OBJET JS :
+// Ce que le navigateur affiche (et ce que fetch() reçoit) est du TEXTE JSON — une simple string :
+//   '{"kind":"Listing","data":{...}}'
+//
+// En collant ce contenu après "= " dans un fichier .js (sans guillemets autour),
+// on écrit un OBJET JS LITTÉRAL. Lors de l'import, le moteur JS l'exécute
+// et le retourne directement comme un vrai objet en mémoire — pas besoin de JSON.parse().
+//
+// Comparaison :
+//   const x = '{"kind":"Listing"}';  → string JSON  → nécessite JSON.parse(x)
+//   const x =  {"kind":"Listing"} ;  → objet JS     → utilisable directement
+//
+// C'est pourquoi dans les tests, json: vi.fn().mockResolvedValue(mockRealRedditArticles)
+// est correct : response.json() retourne un objet JS, et c'est bien ce qu'on fournit ici.
 export const mockRealRedditArticles = {
   "kind": "Listing",
   "data": {
