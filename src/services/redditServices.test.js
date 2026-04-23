@@ -1,7 +1,57 @@
-import { fetchPopular } from "./redditServices";
+import { fetchPopular } from './redditServices';
+import { mockRealRedditArticles } from '../mock/mockRealRedditArticles';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+// Réinitialiser les mocks avant chaque test
+beforeEach(() => {
+  vi.resetAllMocks();
+});
 
 describe('fetchPopular', () => {
-    it('returns an array called data', () => {});
-    it('manages http error', () => {});
-    it('manages reddit error', () => {});
+  it('returns an array of articled if it resolve', async () => {
+    // ARRANGE : on prépare le faux fetch
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue(mockRealRedditArticles),
+    });
+
+    // ACT : on appelle la vraie fonction
+    const result = await fetchPopular();
+
+    // ASSERT : on vérifie le résultat
+    // On compare contre data.children car c'est ce que fetchPopular() retourne
+    // On évite toEqual(mockRealRedditArticles) entier pour ne pas inonder le terminal en cas d'échec
+    const expected = mockRealRedditArticles.data.children;
+    expect(Array.isArray(result)).toBe(true);
+    expect(result).toHaveLength(expected.length);
+    expect(result[0].kind).toBe(expected[0].kind);
+  });
+
+  // --- CAS 2 : erreur HTTP (ex: 404, 500) ---
+  it('lance une erreur en cas d\'erreur HTTP', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 500,
+      statusText: 'Internal Server Error',
+    });
+
+    await expect(fetchPopular()).rejects.toThrow('Erreur réseau: 500');
+  });
+
+  // --- CAS 3 : erreur réseau (coupure, timeout) ---
+  it('lance une erreur en cas de coupure réseau', async () => {
+    global.fetch = vi.fn().mockRejectedValue(new Error('Network Error'));
+
+    await expect(fetchPopular()).rejects.toThrow('Network Error');
+  });
+
+  // --- CAS 4 : erreur logique Reddit ---
+  it('lance une erreur si Reddit retourne une erreur applicative', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue({ error: 403, message: 'Forbidden' }),
+    });
+
+    await expect(fetchPopular()).rejects.toThrow('Reddit : 403');
+  });
 });
