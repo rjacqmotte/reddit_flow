@@ -199,6 +199,9 @@ describe('fetchPopular', () => {
 ## Bonnes pratiques
 
 - Toujours appeler `vi.resetAllMocks()` dans un `beforeEach` pour ne pas polluer entre les tests
+  - Sans ça, le `mockResolvedValue()` défini dans un `it` reste actif pour les `it` suivants
+  - Ex : le CAS 1 (succès) tourne avant le CAS 4 (erreur Reddit) → sans reset, `fetch` retourne encore les articles valides et le CAS 4 ne teste plus rien
+  - `vi.resetAllMocks()` remet chaque `vi.fn()` à vide : plus de comportement défini, compteur d'appels remis à 0
 - Utiliser `async/await` dans les `it` pour tester des fonctions asynchrones
 - Pour tester qu'une erreur est lancée : `await expect(maFonction()).rejects.toThrow('message')`
 
