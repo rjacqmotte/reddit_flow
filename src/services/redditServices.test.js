@@ -3,6 +3,10 @@ import { mockRealRedditArticles } from '../mock/mockRealRedditArticles';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Réinitialiser les mocks avant chaque test
+// Sans ça, les .mockResolvedValue() définis dans un it() restent actifs pour les suivants.
+// Ex : si le CAS 1 (succès) tourne avant le CAS 4 (erreur Reddit), sans reset,
+// fetch serait encore mocké avec ok:true + articles valides → le CAS 4 ne testerait plus rien.
+// vi.resetAllMocks() remet chaque vi.fn() à vide (plus de comportement défini, compteur d'appels à 0).
 beforeEach(() => {
   vi.resetAllMocks();
 });
@@ -54,4 +58,28 @@ describe('fetchPopular', () => {
 
     await expect(fetchPopular()).rejects.toThrow('Reddit : 403');
   });
+});
+
+
+describe('FilterData', () => {
+  it('returns an object with only the expected key', () => {
+    const expectedKeys = [
+      'title',
+      'author',
+      'subreddit', 
+      'score', 
+      'num_comments', 
+      'url', 
+      'thumbnail', 
+      'permalink', 
+      'is_video', 
+      'create_utc'
+    ];
+    const dataToFilter = mockRealRedditArticles.data.children[0].data;
+    const filteredObject = FilterData(datatToFilter); 
+    // check if it contains at least the espected keys
+    expect(Object.keys(filteredObject)).toEqual(expect.arrayContaining(expectedKeys));
+    // check if there is not too much keys
+    expect(Object.keys(filteredObject)).toHaveLength(expectedKeys.length);
+  })
 });
