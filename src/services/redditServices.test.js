@@ -1,4 +1,4 @@
-import { fetchPopular } from './redditServices';
+import { fetchPopular, filterData } from './redditServices';
 import { mockRealRedditArticles } from '../mock/mockRealRedditArticles';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
@@ -61,7 +61,7 @@ describe('fetchPopular', () => {
 });
 
 
-describe('FilterData', () => {
+describe('filterData', () => {
   it('returns an object with only the expected key', () => {
     const expectedKeys = [
       'title',
@@ -73,13 +73,11 @@ describe('FilterData', () => {
       'thumbnail', 
       'permalink', 
       'is_video', 
-      'create_utc'
+      'created_utc'
     ];
     const dataToFilter = mockRealRedditArticles.data.children[0].data;
-    const filteredObject = FilterData(datatToFilter); 
+    const filteredObject = filterData(dataToFilter, expectedKeys); 
     // check if it contains at least the espected keys
-    expect(Object.keys(filteredObject)).toEqual(expect.arrayContaining(expectedKeys));
-    // check if there is not too much keys
-    expect(Object.keys(filteredObject)).toHaveLength(expectedKeys.length);
+    expect(Object.keys(filteredObject)).toEqual(expectedKeys);
   })
 });
