@@ -29,15 +29,19 @@ export async function fetchPopular() {
     // Etape 5: Succés!
     // en GET, il n'y a pas de searchData.status === OK, mais juste la réponse
     if (fetchData.data?.children) {   
-      const articles = fetchData.data.children;
-      console.log('Articles received:');
-      console.log(articles);
-      return articles;
+      return fetchData.data.children;
     }
 
   } catch (error) {
-    console.log(`Echec: ${error.message}`);
     // relance erreur pour la gérer plus haut
     throw error;
   }
 }
+
+export function filterData (objectToFilterByKeys, arrayOfKeysToKeep) {
+  // create a new array of array key-value
+  const arrayOfFilteredObject = arrayOfKeysToKeep.map((key) => [key, objectToFilterByKeys[key]]);
+  // transform the key-value array in object
+  const filteredObject = Object.fromEntries(arrayOfFilteredObject);
+  return filteredObject;
+};
