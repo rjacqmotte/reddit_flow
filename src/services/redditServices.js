@@ -1,6 +1,6 @@
 // API calls to reddit
 
-/* --- API : Populaire --- */
+/* --- API : fecth un tableau d'articles populaires sur reddit --- */
 // appel API pour fournir une liste d'articles populaire sans besoin d'authentification
 export async function fetchPopular() {
   // url public .json
