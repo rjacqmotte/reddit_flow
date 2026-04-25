@@ -21,7 +21,8 @@ export const Card = ({ article }) => {
     <div ref={viewRef} className={styles.cardContainer}>
       <div ref={contentRef} className={styles.cardContentContainer}>
         <h2>{article.title}</h2>
-        {article.thumbnail && (
+        {/* Reddit renvoie parfois des valeurs spéciales ('self', 'default', 'nsfw', 'spoiler') à la place d'une URL. On les filtre pour éviter une image cassée. */}
+        {article.thumbnail && !['self', 'default', 'nsfw', 'spoiler'].includes(article.thumbnail) && (
           <div className={styles.cardImageContainer}>
             <img
               className={styles.cardImage}
