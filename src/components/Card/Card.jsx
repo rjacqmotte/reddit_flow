@@ -3,7 +3,7 @@
 import styles from './Card.module.css';
 import { useRef, useEffect, useState } from 'react';
 
-export const Card = ({ id, title, body, imageUrl }) => {
+export const Card = ({ article }) => {
   const contentRef = useRef(null);
   const viewRef = useRef(null);
   const [hasOverFlow, setHasOverFlow] = useState(false);
@@ -15,22 +15,23 @@ export const Card = ({ id, title, body, imageUrl }) => {
     if (content && view) {
       setHasOverFlow(content.scrollHeight > view.clientHeight);
     }
-  }, [title, body, imageUrl]);
+  }, [article]);
 
   return (
     <div ref={viewRef} className={styles.cardContainer}>
       <div ref={contentRef} className={styles.cardContentContainer}>
-        <h2>{title}</h2>
-        {imageUrl && (
+        <h2>{article.title}</h2>
+        {article.thumbnail && (
           <div className={styles.cardImageContainer}>
             <img
               className={styles.cardImage}
-              src={imageUrl}
+              src={article.thumbnail}
               alt="article image"
+              referrerPolicy="no-referrer"
             />
           </div>
         )}
-        <p>{body}</p>
+        <p>{article.subreddit}</p>
         {hasOverFlow && (
           <div className={styles.cardExpendZone}>
             <button className={styles.cardExpendButton}>Read Article</button>
