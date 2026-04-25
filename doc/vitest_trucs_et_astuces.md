@@ -95,3 +95,39 @@ Pas besoin de fonction fléchée ici : la promesse est déjà un objet, `.reject
 
 Les `console.log` dans les fonctions testées polluent le terminal de tests avec les données des mocks.  
 Les supprimer avant de commiter — ou les remplacer par un vrai logger configurable.
+
+
+---
+
+## 8. Factoriser des cas de test similaires avec `it.each`
+
+Quand plusieurs tests ont la même logique mais des données différentes, `it.each` évite la répétition.
+
+```jsx
+// Au lieu de 5 blocs it() séparés :
+it.each([null, 'self', 'default', 'nsfw', 'spoiler'])(
+  'does not render image when thumbnail is "%s"',
+  (thumbnail) => {
+    render(<Card article={{ thumbnail }} />);
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  }
+);
+```
+
+- Le tableau contient les valeurs à tester
+- Chaque valeur génère un test séparé dans le rapport Vitest
+- `%s` dans le nom du test est remplacé automatiquement par la valeur courante
+- Fonctionne aussi avec des tableaux de tuples si plusieurs paramètres sont nécessaires :
+
+```jsx
+it.each([
+  ['self', false],
+  ['https://example.com/img.jpg', true],
+])('thumbnail "%s" → image visible: %s', (thumbnail, visible) => {
+  render(<Card article={{ thumbnail }} />);
+  visible
+    ? expect(screen.getByRole('img')).toBeInTheDocument()
+    : expect(screen.queryByRole('img')).not.toBeInTheDocument();
+});
+```
+
