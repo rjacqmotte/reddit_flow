@@ -8,7 +8,7 @@ export const Articles =  ({ articles }) => {
     return (
         <div className={styles.articlesContainer}>
             <ul className={styles.ArticlesList}>
-                {articles.map((article, index) => (
+                {articles &&articles.map((article, index) => (
                     <li key={index} className={styles.ArticleItem}>
                         <Card article = {article.data} />
                     </li>
