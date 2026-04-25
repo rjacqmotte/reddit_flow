@@ -81,7 +81,75 @@ chore: update react to v19
 
 ---
 
-## 🔧 Réécrire l'historique Git
+## � Erreurs réelles → corrections (exemples vécus)
+
+### 1. Description trop longue
+
+```
+// ❌ 67 caractères — dépasse la limite de 50
+feat(filterData): throw error if keys to keep do not exist in object to filter
+
+// ✅ Court et précis
+feat(filterData): throw on unknown keys
+```
+
+---
+
+### 2. Deux changements différents dans un seul commit
+
+```
+// ❌ Le body décrit un changement de nature différente (test ≠ feat)
+feat(filterData): throw error if keys to keep do not exist in object to filter
+
+fix filterData unit test to fit the new feature
+
+// ✅ Deux commits séparés
+feat(filterData): throw on unknown keys
+
+test(filterData): update unit test for unknown keys error
+```
+
+---
+
+### 3. Mentionner l'outil dans le message
+
+```
+// ❌ "ai create" mentionne le processus, pas la valeur
+docs(pedagogic syntheses): ai create 2 pedagogics files error and truc_et_astuce
+
+// ✅ Décrire ce qui est ajouté, pas comment c'est fait
+docs: add js errors and vitest tips cheatsheets
+```
+
+---
+
+### 4. Mauvais type pour un test
+
+```
+// ❌ refactor sur un fichier de test → utiliser "test"
+// ❌ Faute de frappe "fonction" au lieu de "function"
+// ❌ "fit to the fonction filterData" = trop verbeux
+refactor(filterData test): simplify test to fit to the fonction filterData
+
+// ✅ Type correct, scope propre, description concise
+test(filterData): simplify tests
+```
+
+---
+
+### 5. Décrire le processus TDD plutôt que la valeur
+
+```
+// ❌ "to make a test green" = décrit une étape de dev, pas la fonctionnalité
+feat(filterData): create filterData to make a test green
+
+// ✅ Décrire ce qui existe maintenant dans le code
+feat(filterData): add filterData utility function
+```
+
+---
+
+## �🔧 Réécrire l'historique Git
 
 ### Modifier le dernier commit
 ```bash
