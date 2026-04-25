@@ -32,7 +32,7 @@ describe('fetchPopular', () => {
   });
 
   // --- CAS 2 : erreur HTTP (ex: 404, 500) ---
-  it('lance une erreur en cas d\'erreur HTTP', async () => {
+  it("lance une erreur en cas d'erreur HTTP", async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 500,
@@ -60,24 +60,44 @@ describe('fetchPopular', () => {
   });
 });
 
-
 describe('filterData', () => {
   it('returns an object with only the expected key', () => {
     const expectedKeys = [
       'title',
       'author',
-      'subreddit', 
-      'score', 
-      'num_comments', 
-      'url', 
-      'thumbnail', 
-      'permalink', 
-      'is_video', 
-      'created_utc'
+      'subreddit',
+      'score',
+      'num_comments',
+      'url',
+      'thumbnail',
+      'permalink',
+      'is_video',
+      'created_utc',
     ];
     const dataToFilter = mockRealRedditArticles.data.children[0].data;
-    const filteredObject = filterData(dataToFilter, expectedKeys); 
+    const filteredObject = filterData(dataToFilter, expectedKeys);
     // check if it contains at least the espected keys
     expect(Object.keys(filteredObject)).toEqual(expectedKeys);
-  })
+  });
+  it('throw an error if the filter keys used do not exist in the object to filter', () => {
+    const expectedKeys = [
+      'titlxxxe',
+      'auxxxthor',
+      'subreddit',
+      'score',
+      'num_comments',
+      'xxxxurl',
+      'thumbnail',
+      'permalink',
+      'is_video',
+      'created_utc',
+    ];
+    const dataToFilter = mockRealRedditArticles.data.children[0].data;
+    // ⚠️ .toThrow() exige une fonction fléchée : () => maFonction()
+    // Sans la flèche, JS exécute maFonction() AVANT que expect() soit appelé.
+    // L'erreur est alors lancée directement dans le test, non capturée par expect → le test plante pour la mauvaise raison.
+    // Avec la flèche, on passe la fonction à expect, qui l'appelle dans un try/catch pour vérifier l'erreur.
+    // Règle : dès que tu utilises .toThrow(), utilise toujours () => maFonction().
+    expect(() => filterData(dataToFilter, expectedKeys)).toThrow('do not exist in the object');
+  });
 });

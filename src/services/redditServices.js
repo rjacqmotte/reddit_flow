@@ -38,9 +38,16 @@ export async function fetchPopular() {
   }
 }
 
-export function filterData (objectToFilterByKeys, arrayOfKeysToKeep) {
+export function filterData (objectToFilter, arrayOfKeysToKeep) {
+  // throw error if a key of keysToKeep do not exist in objectToFilter
+  const objectToFilterKeys = Object.keys(objectToFilter);
+  const missingKey = arrayOfKeysToKeep.find((key) => !objectToFilterKeys.includes(key));
+  if (missingKey) {
+    throw new Error(`FilterData: key ${missingKey} do not exist in the object to filter`);
+  }
+
   // create a new array of array key-value
-  const arrayOfFilteredObject = arrayOfKeysToKeep.map((key) => [key, objectToFilterByKeys[key]]);
+  const arrayOfFilteredObject = arrayOfKeysToKeep.map((key) => [key, objectToFilter[key]]);
   // transform the key-value array in object
   const filteredObject = Object.fromEntries(arrayOfFilteredObject);
   return filteredObject;
