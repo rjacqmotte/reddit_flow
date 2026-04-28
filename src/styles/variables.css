@@ -1,26 +1,26 @@
 :root {
   /* Primitive colors: 50=lightest, 900=darkest */
-  --color-primary-50: hsl(220 85% 97%);
-  --color-primary-100: hsl(220 82% 93%);
-  --color-primary-200: hsl(220 78% 87%);
-  --color-primary-300: hsl(220 74% 78%);
-  --color-primary-400: hsl(220 80% 66%);
-  --color-primary-500: hsl(220 84% 54%);
-  --color-primary-600: hsl(220 74% 44%);
-  --color-primary-700: hsl(220 64% 36%);
-  --color-primary-800: hsl(220 54% 28%);
-  --color-primary-900: hsl(220 44% 20%);
+  --color-primary-50: hsl(27 25% 95%);
+  --color-primary-100: hsl(27 30% 90%);
+  --color-primary-200: hsl(27 55% 85%);
+  --color-primary-300: hsl(27 80% 75%);
+  --color-primary-400: hsl(27 92% 66%);
+  --color-primary-500: hsl(27 100% 50%);
+  --color-primary-600: hsl(27 92% 40%);
+  --color-primary-700: hsl(27 80% 25%);
+  --color-primary-800: hsl(27 55% 15%);
+  --color-primary-900: hsl(27 30% 10%);
 
-  --color-secondary-50: hsl(188 74% 96%);
-  --color-secondary-100: hsl(188 70% 92%);
-  --color-secondary-200: hsl(188 66% 85%);
-  --color-secondary-300: hsl(188 62% 76%);
-  --color-secondary-400: hsl(188 68% 64%);
-  --color-secondary-500: hsl(188 74% 51%);
-  --color-secondary-600: hsl(188 64% 41%);
-  --color-secondary-700: hsl(188 56% 33%);
-  --color-secondary-800: hsl(188 48% 26%);
-  --color-secondary-900: hsl(188 40% 19%);
+  --color-secondary-50: hsl(99 5% 80%);
+  --color-secondary-100: hsl(99, 8%, 70%);
+  --color-secondary-200: hsl(99 25% 65%);
+  --color-secondary-300: hsl(99, 35%, 41%);
+  --color-secondary-400: hsl(99 55% 32%);
+  --color-secondary-500: hsl(99, 98%, 17%);
+  --color-secondary-600: hsl(99 55% 16%);
+  --color-secondary-700: hsl(99, 35%, 15%);
+  --color-secondary-800: hsl(99 25% 13%);
+  --color-secondary-900: hsl(99 15% 10%);
 
   /* Neutral colors: slight tint from primary hue */
   --color-gray-50: hsl(220 28% 98%);
