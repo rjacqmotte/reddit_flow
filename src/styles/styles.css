@@ -12,5 +12,55 @@ p {
     line-height: var(--lh-relaxed);
 }
 
+/* Buttons */
+/***********/
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2) var(--space-5);
+    font-size: var(--font-size-sm);
+    font-weight: var(--fw-semibold);
+    border-radius: var(--space-2);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* Plein — fond gris moyen, texte sombre */
+.btn-filled {
+    background-color: var(--color-btn-filled-bg);
+    color: var(--color-btn-filled-text);
+    border: 2px solid var(--color-btn-filled-border);
+}
+
+.btn-filled:hover {
+    background-color: var(--color-btn-filled-bg-hover);
+    border-color: var(--color-btn-filled-bg-hover);
+}
+
+/* Transparent — fond vide, bordure grise discrète */
+.btn-outline {
+    background-color: transparent;
+    color: var(--color-btn-outline-text);
+    border: 2px solid var(--color-btn-outline-border);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-btn-outline-bg-hover);
+    border-color: var(--color-btn-outline-border-hover);
+}
+
+/* Sans bord — texte gris, aucune bordure ni fond */
+.btn-ghost {
+    background-color: transparent;
+    color: var(--color-btn-ghost-text);
+    border: 2px solid transparent;
+}
+
+.btn-ghost:hover {
+    color: var(--color-btn-ghost-text-hover);
+    background-color: var(--color-btn-ghost-bg-hover);
+}
 
 
