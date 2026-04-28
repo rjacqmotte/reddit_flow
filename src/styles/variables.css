@@ -1,15 +1,15 @@
 :root {
   /* Primitive colors: 50=lightest, 900=darkest */
-  --color-primary-50: hsl(27 25% 95%);
-  --color-primary-100: hsl(27 30% 90%);
-  --color-primary-200: hsl(27 55% 85%);
-  --color-primary-300: hsl(27 80% 75%);
-  --color-primary-400: hsl(27 92% 66%);
-  --color-primary-500: hsl(27 100% 50%);
-  --color-primary-600: hsl(27 92% 40%);
-  --color-primary-700: hsl(27 80% 25%);
-  --color-primary-800: hsl(27 55% 15%);
-  --color-primary-900: hsl(27 30% 10%);
+  --color-primary-50: hsl(27 10% 98%);
+  --color-primary-100: hsl(27 20% 92%);
+  --color-primary-200: hsl(27 35% 85%);
+  --color-primary-300: hsl(27 65% 75%);
+  --color-primary-400: hsl(27 80% 66%);
+  --color-primary-500: hsl(27 90% 50%);
+  --color-primary-600: hsl(27 80% 40%);
+  --color-primary-700: hsl(27 65% 25%);
+  --color-primary-800: hsl(27 35% 15%);
+  --color-primary-900: hsl(27 20% 10%);
 
   --color-secondary-50: hsl(99 5% 80%);
   --color-secondary-100: hsl(99, 8%, 70%);
@@ -23,16 +23,16 @@
   --color-secondary-900: hsl(99 15% 10%);
 
   /* Neutral colors: slight tint from primary hue */
-  --color-gray-50: hsl(220 28% 98%);
-  --color-gray-100: hsl(220 24% 95%);
-  --color-gray-200: hsl(220 20% 91%);
-  --color-gray-300: hsl(220 18% 84%);
-  --color-gray-400: hsl(220 16% 74%);
-  --color-gray-500: hsl(220 14% 61%);
-  --color-gray-600: hsl(220 15% 47%);
-  --color-gray-700: hsl(220 17% 35%);
-  --color-gray-800: hsl(220 20% 24%);
-  --color-gray-900: hsl(220 24% 14%);
+  --color-gray-50: hsl(27 28% 98%);
+  --color-gray-100: hsl(27 24% 95%);
+  --color-gray-200: hsl(27 20% 91%);
+  --color-gray-300: hsl(27 18% 84%);
+  --color-gray-400: hsl(27 16% 74%);
+  --color-gray-500: hsl(27 14% 61%);
+  --color-gray-600: hsl(27 15% 47%);
+  --color-gray-700: hsl(27 17% 35%);
+  --color-gray-800: hsl(27 20% 24%);
+  --color-gray-900: hsl(27 24% 14%);
 
   --color-red-50: hsl(8 82% 97%);
   --color-red-100: hsl(8 78% 93%);
@@ -199,12 +199,12 @@
   --icon-lg: 24px;
 
   /* Semantic aliases */
-  --color-bg-canvas: var(--color-gray-100);
-  --color-bg-surface: var(--color-gray-200);
+  --color-bg-canvas: var(--color-primary-200);
+  --color-bg-surface: var(--color-gray-100);
   --color-bg-elevated: var(--color-gray-50);
 
-  --color-border-default: var(--color-gray-300);
-  --color-border-strong: var(--color-gray-500);
+  --color-border-default: var(--color-primary-300);
+  --color-border-strong: var(--color-primary-500);
 
   --color-text-default: var(--color-gray-900);
   --color-text-muted: var(--color-gray-600);
@@ -243,15 +243,16 @@
   --color-focus-ring: hsl(220 84% 54% / 0.35);
 
   /* Button tokens */
-  --color-btn-filled-bg: var(--color-gray-300);
-  --color-btn-filled-bg-hover: var(--color-gray-400);
-  --color-btn-filled-text: var(--color-gray-800);
-  --color-btn-filled-border: var(--color-gray-300);
+  --color-btn-filled-bg: var(--color-primary-300);
+  --color-btn-filled-bg-hover: var(--color-primary-400);
+  --color-btn-filled-text: var(--color-primary-800);
+  --color-btn-filled-border: var(--color-primary-400);
 
-  --color-btn-outline-text: var(--color-gray-700);
-  --color-btn-outline-border: var(--color-gray-300);
-  --color-btn-outline-border-hover: var(--color-gray-400);
-  --color-btn-outline-bg-hover: var(--color-gray-100);
+  --color-btn-bg-outline: var(--color-bg-surface);
+  --color-btn-outline-text: var(--color-primary-700);
+  --color-btn-outline-border: var(--color-primary-300);
+  --color-btn-outline-border-hover: var(--color-primary-500);
+  --color-btn-outline-bg-hover: var(--color-primary-200);
 
   --color-btn-ghost-text: var(--color-gray-600);
   --color-btn-ghost-text-hover: var(--color-gray-800);

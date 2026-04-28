@@ -3,8 +3,8 @@
     display: flex;
     border-radius: var(--radius-round);
     box-shadow: var(--shadow-3);
-    background-color: var(--color-gray-100);
-    border: solid var(--border-width-3) var(--color-gray-400);
+    background-color: var(--color-bg-elevated);
+    border: solid var(--border-width-2) var(--color-border-default);
     overflow: hidden;
     transition: border-color var(--duration-normal) var(--ease-out),
                 box-shadow var(--duration-normal) var(--ease-out);
@@ -12,12 +12,14 @@
 
 .searchForm:hover {
     box-shadow: var(--shadow-5);
-    scale: 1.01;
-    transform: translateY(-2px);
+    /* Toujours regrouper scale et translate dans transform.
+       Séparer scale: et transform: crée deux propriétés CSS distinctes
+       qui ne se combinent pas correctement en animation. */
+    transform: scale(1.01) translateY(-2px);
 }
 
 .searchForm:focus-within {
-    border-color: var(--color-gray-600);
+    border-color: var(--color-border-strong);
 }
 
 .searchInput {
@@ -49,6 +51,8 @@
 
 .paramButton {
     border-radius: var(--radius-3) var(--radius-round) var(--radius-round) var(--radius-3);
-    letter-spacing: 0.3em;
+    /* 0.3em est trop large pour du texte de bouton : lisibilité réduite
+       et aspect écrasant. 0.15em donne le style souhaité sans surcharger. */
+    letter-spacing: 0.15em;
     font-weight: 800;
 }

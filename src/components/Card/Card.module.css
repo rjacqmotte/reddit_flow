@@ -1,7 +1,7 @@
 .cardContainer {
   max-height: var(--size-13);
   overflow: hidden;
-  background-color: var(--color-bg-canvas);
+  background-color: var(--color-bg-surface);
   box-shadow: var(--shadow-2);
   border-radius: var(--radius-3);
   padding: var(--space-4);
@@ -19,7 +19,16 @@
   bottom: 0;
   left: 0;
   z-index: var(--z-index-dropdown);
-  background: linear-gradient(180deg, hsl(220 28% 98% / 0.0), hsl(220 28% 98% / 0.50), hsl(220 28% 98% / 0.90), hsl(220 28% 98%));
+  /* Utiliser color-mix() pour construire le dégradé à partir du token
+     plutôt que de coder la valeur HSL en dur. Avantage : si --color-bg-elevated
+     change (thème sombre, rebranding), le dégradé suit automatiquement. */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-bg-elevated) 0%, transparent),
+    color-mix(in srgb, var(--color-bg-elevated) 50%, transparent),
+    color-mix(in srgb, var(--color-bg-elevated) 90%, transparent),
+    var(--color-bg-elevated)
+  );
 }
 
 .cardExpendZone {
@@ -30,7 +39,10 @@
 }
 
 .cardExpendButton {
-  background-color: transparent;
+  /* Un fond transparent avec une ombre ne fonctionne pas visuellement :
+     l'ombre semble flotter dans le vide. On donne un fond explicite
+     pour ancrer l'ombre et rendre le bouton perceptible. */
+  background-color: var(--color-bg-elevated);
   border: none;
   font-size: var(--font-size-xs);
   color: var(--color-gray-500);
