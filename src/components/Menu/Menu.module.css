@@ -3,4 +3,5 @@
     bottom: 0;
     padding: var(--space-2);
     width: 100%;
+    max-width: var(--container-md);
 }
