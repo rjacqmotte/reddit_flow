@@ -4,12 +4,34 @@
   background-color: var(--color-bg-surface);
   box-shadow: var(--shadow-2);
   border-radius: var(--radius-3);
-  padding: var(--space-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  padding: var(--space-2);
   position: relative;
   z-index: var(--z-index-base);
+}
+
+.cardContentContainer {
+  display: flex;
+  gap: var(--space-4);
+
+}
+
+.cardImageContainer {
+  flex: 1;
+}
+
+.cardImage {}
+
+.cardText {
+  flex: 2;
+}
+
+@media (min-width: 1024px) {
+.cardText {
+  flex: 3;
+}
+}
+.cardText p {
+  color: var(--color-text-alt1);
 }
 
 .cardExpendZone {
