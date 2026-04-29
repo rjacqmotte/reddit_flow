@@ -45,6 +45,20 @@
     width: var(--size-8);
 }
 
+.searchButton:hover,
+.searchButton:active, 
+.paramButton:hover,
+.paramButton:active {
+    transform: none;
+    transform: scale(0.98);
+}
+
+.searchButton:active,
+.paramButton:active {
+    transform: scale(0.92);
+}
+
+
 .searchButton {
     border-radius: var(--radius-round) var(--radius-3) var(--radius-3) var(--radius-round);
 }
