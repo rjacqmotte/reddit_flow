@@ -16,7 +16,9 @@
        Séparer scale: et transform: crée deux propriétés CSS distinctes
        qui ne se combinent pas correctement en animation. */
     transform: scale(1.01) translateY(-2px);
+    border: solid var(--border-width-3) var(--color-border-default);
 }
+
 
 .searchForm:focus-within {
     border-color: var(--color-border-strong);
@@ -26,41 +28,31 @@
     width: 100%;
     height: 100%;
     padding-right: 132px;
+    border-radius: var(--radius-round);
 }
 
-.searchInput:focus {
+.searchInput,
+.searchInput:focus,
+.searchInput:hover {
     border-color: transparent;
 }   
 
+
+/* --- Button --- */
 .searchButtonsContainer {
     height: 100%;
     position: absolute;
     right: 0;
     display: flex;
     gap: 2px;
+    background-color: var(--color-bg-canvas);
+    border-radius: var(--radius-round);
 }
 
 .searchButton, .paramButton {
     height: 100%;
     width: var(--size-8);
-}
-
-.searchButton:hover,
-.searchButton:active, 
-.paramButton:hover,
-.paramButton:active {
-    transform: none;
     transform: scale(0.98);
-}
-
-.searchButton:active,
-.paramButton:active {
-    transform: scale(0.92);
-}
-
-
-.searchButton {
-    border-radius: var(--radius-round) var(--radius-3) var(--radius-3) var(--radius-round);
 }
 
 .paramButton {
@@ -70,3 +62,21 @@
     letter-spacing: 0.15em;
     font-weight: 800;
 }
+
+.searchButton {
+    border-radius: var(--radius-round) var(--radius-3) var(--radius-3) var(--radius-round);
+}
+
+.searchButton:hover,
+.searchButton:active, 
+.paramButton:hover,
+.paramButton:active {
+    transform: none;
+    transform: scale(0.97);
+}
+
+.searchButton:active,
+.paramButton:active {
+    transform: scale(0.94);
+}
+
