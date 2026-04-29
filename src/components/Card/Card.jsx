@@ -28,7 +28,7 @@ export const Card = ({ article }) => {
             <div className={styles.cardImageContainer}>
               <img
                 className={styles.cardImage}
-                src={article.thumbnail}
+                src={article.thumbnail.replace(/&amp;/g, '&')}
                 alt="article image"
                 referrerPolicy="no-referrer"
               />
