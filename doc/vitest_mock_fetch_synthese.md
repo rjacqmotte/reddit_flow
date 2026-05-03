@@ -217,3 +217,184 @@ Avec `global.fetch = vi.fn()`, tu **réassignes** directement le global. Dans ce
 En pratique, ce n'est pas un problème : comme tu redéfinis `global.fetch = vi.fn().mockResolvedValue(...)` dans chaque `it`, chaque test repart d'un mock frais et contrôlé.
 
 Si tu voulais restaurer automatiquement la vraie `fetch`, il faudrait utiliser `vi.spyOn(global, 'fetch')` à la place — mais c'est une étape suivante.
+
+---
+
+## `vi.spyOn()` — mocker une fonction exportée d'un module
+
+### Le problème avec `vi.fn()` sur un import
+
+Les imports ES modules sont **en lecture seule**. On ne peut pas les réassigner directement :
+
+```js
+import { fetchPopular } from '../../services/redditServices';
+
+fetchPopular = vi.fn(); // ❌ TypeError: Cannot set property ... has only a getter
+```
+
+### La solution : `vi.spyOn()`
+
+On importe le **module entier** (un objet), puis on espionne une de ses propriétés :
+
+```js
+import * as redditServices from '../../services/redditServices';
+// redditServices = { fetchPopular: [Function], fetchSearch: [Function], ... }
+
+vi.spyOn(redditServices, 'fetchPopular').mockResolvedValue(mockArticles);
+// Vitest remplace redditServices.fetchPopular par un mock contrôlable
+// La référence originale est sauvegardée pour pouvoir être restaurée
+```
+
+### Ce que fait `vi.spyOn()` en détail
+
+1. Il va dans l'objet `redditServices`
+2. Il trouve la propriété `'fetchPopular'`
+3. Il la **remplace** par une mock function (en gardant l'originale en mémoire)
+4. Il retourne cette mock function pour pouvoir chaîner `.mockResolvedValue()` etc.
+
+Quand le composant testé appelle `fetchPopular()`, il tombe sur le mock — sans le savoir — parce que les deux (composant et test) partagent le même objet module.
+
+### Restaurer l'original
+
+Contrairement à `global.fetch = vi.fn()`, `vi.spyOn()` sait restaurer l'original :
+
+```js
+afterEach(() => {
+  vi.restoreAllMocks(); // remet la vraie fetchPopular en place
+});
+```
+
+---
+
+## Tester un `useEffect` qui fetche au montage
+
+### Le contexte
+
+Un composant qui fetch dans un `useEffect` :
+
+```jsx
+// Articles.jsx
+export const Articles = () => {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const articles = await fetchPopular(); // appel au service
+      setArticles(articles);
+    };
+    fetchArticles();
+  }, []);
+
+  return (/* ... */);
+};
+```
+
+### Les deux différences par rapport à un test ordinaire
+
+**1. Mocker le service avant le render**
+
+```js
+import * as redditServices from '../../services/redditServices';
+
+vi.spyOn(redditServices, 'fetchPopular').mockResolvedValue(mockArticles);
+render(<Articles />);
+```
+
+**2. Attendre que le DOM soit mis à jour**
+
+Le `useEffect` est asynchrone : au moment du `render()`, le fetch n'est pas encore terminé. Les éléments n'existent pas encore dans le DOM.
+
+- `getBy*` → cherche **immédiatement**, échoue si rien n'est là
+- `findBy*` → attend (polling) que l'élément apparaisse, jusqu'à un timeout
+
+```js
+// ❌ trop tôt, le fetch n'est pas fini
+const headings = screen.getAllByRole('heading');
+
+// ✅ attend que les cards soient rendues
+const headings = await screen.findAllByRole('heading');
+```
+
+Le `it` doit être `async`, et `await` doit être sur le `findBy*`.
+
+### Exemple complet
+
+```jsx
+import { render, screen } from '@testing-library/react';
+import { vi, describe, it, expect, afterEach } from 'vitest';
+import * as redditServices from '../../services/redditServices';
+import { mockRealRedditArticles } from '../../mock/mockRealRedditArticles';
+import { Articles } from './Articles';
+
+const mockArticles = mockRealRedditArticles.data.children;
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+describe('Articles', () => {
+  it('renders one card per article', async () => {
+    vi.spyOn(redditServices, 'fetchPopular').mockResolvedValue(mockArticles);
+
+    render(<Articles />);
+
+    const headings = await screen.findAllByRole('heading'); // attend le fetch
+    expect(headings).toHaveLength(mockArticles.length);
+  });
+
+  it('renders the title of every article', async () => {
+    vi.spyOn(redditServices, 'fetchPopular').mockResolvedValue(mockArticles);
+
+    render(<Articles />);
+
+    // for...of et non .map() : voir note ci-dessous
+    for (const article of mockArticles) {
+      expect(await screen.findByText(article.data.title)).toBeInTheDocument();
+    }
+  });
+});
+```
+
+### Résumé du flux
+
+```
+render(<Articles />)
+  ↓ useEffect déclenché après le premier render
+  ↓ fetchPopular() appelé → tombe sur le mock → retourne Promise.resolve(mockArticles)
+  ↓ setArticles(mockArticles) → re-render
+  ↓ les <Card> apparaissent dans le DOM
+findAllByRole('heading') → les trouve ✅
+```
+
+---
+
+### Pourquoi `for...of` et pas `.map()` avec `await`
+
+**`.map()` ne comprend pas les promesses.** Si tu mets `async/await` dans un `.map()`, il lance toutes les opérations **en parallèle sans en attendre aucune** et retourne immédiatement un tableau de promesses non résolues. Le test continue avant que quoi que ce soit soit terminé.
+
+```js
+// ❌ le map ne s'attend pas lui-même
+mockArticles.map(async (article) => {
+  expect(await screen.findByText(article.data.title)).toBeInTheDocument();
+  // → le test se termine avant que findByText se résolve
+});
+```
+
+**`for...of` respecte vraiment `await`** : il attend que chaque itération soit terminée avant de passer à la suivante.
+
+```js
+// ✅ chaque findByText est attendu l'un après l'autre
+for (const article of mockArticles) {
+  expect(await screen.findByText(article.data.title)).toBeInTheDocument();
+}
+```
+
+**Règle simple :** dès que tu veux `await` à l'intérieur d'une itération → utilise `for...of`. Garde `.map()` pour les transformations synchrones.
+
+> **Alternative valide si tu veux garder `.map()`** :
+> ```js
+> await Promise.all(mockArticles.map(async (article) => {
+>   expect(await screen.findByText(article.data.title)).toBeInTheDocument();
+> }));
+> ```
+> `Promise.all()` attend que **toutes** les promesses soient résolues. Ça marche, mais c'est plus verbeux et toutes les assertions tournent en parallèle.

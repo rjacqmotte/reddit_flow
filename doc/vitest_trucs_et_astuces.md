@@ -96,6 +96,23 @@ Pas besoin de fonction fléchée ici : la promesse est déjà un objet, `.reject
 Les `console.log` dans les fonctions testées polluent le terminal de tests avec les données des mocks.  
 Les supprimer avant de commiter — ou les remplacer par un vrai logger configurable.
 
+---
+
+## 8. Tester un `useEffect`
+
+Un `useEffect` s'exécute **après** le render, pas pendant. Le DOM est donc vide au moment où le composant est rendu — il faut attendre.
+
+**Règle :** dès qu'un `useEffect` est impliqué, utilise `findBy*` au lieu de `getBy*`, et rends le `it` `async`.
+
+```js
+// ❌ getBy* cherche immédiatement → le useEffect n'est pas encore passé
+const el = screen.getByRole('heading');
+
+// ✅ findBy* attend que l'élément apparaisse dans le DOM
+const el = await screen.findByRole('heading');
+```
+
+Si le `useEffect` appelle un service externe, mock-le **avant** le `render()` avec `vi.spyOn()` (voir `vitest_mock_fetch_synthese.md`).
 
 ---
 
