@@ -3,7 +3,6 @@ import { mockRealRedditArticles } from '../../mock/mockRealRedditArticles';
 import { render, screen } from '@testing-library/react';
 import * as redditServices from '../../services/redditServices';
 
-
 const mockArticles = mockRealRedditArticles.data.children;
 
 afterEach(() => {
@@ -25,12 +24,12 @@ describe('Articles', () => {
 
   it('renders the title of every article', async () => {
     vi.spyOn(redditServices, 'fetchPopular').mockResolvedValue(mockArticles);
-    
+
     render(<Articles />);
 
     for (const article of mockArticles) {
       expect(await screen.findByText(article.data.title)).toBeInTheDocument();
-    };
+    }
   });
 
   it('renders nothing if articles is null', () => {
@@ -41,5 +40,13 @@ describe('Articles', () => {
   it('renders nothing if articles is empty', () => {
     render(<Articles articles={[]} />);
     expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+  });
+
+  it('displays error message if loading data fail', async () => {
+    vi.spyOn(redditServices, 'fetchPopular').mockRejectedValue(new Error('fetchPopular does not receive data to display'));
+
+    render(<Articles />);
+    const textError = await screen.findByText(/Error/);
+    expect(textError).toBeInTheDocument();
   });
 });
